@@ -10,12 +10,12 @@ sumBtn.addEventListener('click', () => {
   if (Number.isNaN(a) || Number.isNaN(b)) {
     resultEl.textContent = 'Résultat: veuillez saisir deux nombres.';
     return;
-    }
+  }
   const sum = a + b;
   resultEl.textContent = `Résultat: ${sum}`;
 });
 
-// Install prompt (PWA)
+// Install prompt (Chrome/Edge)
 let deferredPrompt;
 const installSection = document.getElementById('installSection');
 const installBtn = document.getElementById('installBtn');
@@ -29,7 +29,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 installBtn.addEventListener('click', async () => {
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
+  await deferredPrompt.userChoice;
   deferredPrompt = null;
   installSection.hidden = true;
 });
