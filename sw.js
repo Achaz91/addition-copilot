@@ -28,20 +28,14 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   event.respondWith(
     caches.match(request).then((cached) => {
-      return (
-        cached ||
-        fetch(request).then((response) => {
-          // Optionnel: mettre en cache les nouvelles réponses GET
-          if (request.method === 'GET') {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        }).catch(() => {
-          // Fallback hors-ligne (peut afficher une page hors-ligne custom)
-          return cached;
-        })
-      );
+      if (cached) return cached;
+      return fetch(request).then((response) => {
+        if (request.method === 'GET' && response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+        }
+        return response;
+      }).catch(() => cached);
     })
   );
 });
