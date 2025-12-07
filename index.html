@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Addition PWA</title>
+
+  <!-- Couleurs navigateur -->
+  <meta name="theme-color" content="#0a84ff">
+  <meta name="description" content="Une PWA basique pour additionner deux nombres.">
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- iOS support -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0; padding: 24px;
+      display: grid; place-items: center; min-height: 100vh;
+      background: Canvas; color: CanvasText;
+    }
+    .card {
+      width: 100%; max-width: 420px; border: 1px solid GrayText;
+      border-radius: 12px; padding: 20px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.08);
+      background: Canvas;
+    }
+    h1 { font-size: 1.4rem; margin: 0 0 12px; }
+    .row { display: grid; gap: 12px; margin: 16px 0; }
+    label { font-weight: 600; }
+    input {
+      padding: 12px; border: 1px solid GrayText; border-radius: 8px;
+      font-size: 1rem; width: 100%;
+    }
+    button {
+      padding: 12px 16px; border: none; border-radius: 8px;
+      background: #0a84ff; color: white; font-weight: 700; cursor: pointer;
+    }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .result {
+      margin-top: 12px; font-size: 1.1rem; font-weight: 700;
+    }
+    .install {
+      margin-top: 16px; font-size: .95rem;
+    }
+    footer { margin-top: 16px; font-size: .85rem; color: GrayText; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Addition PWA</h1>
+    <p>Entrez deux nombres, obtenez la somme. Fonctionne hors-ligne après la première visite.</p>
+
+    <div class="row">
+      <div>
+        <label for="a">Nombre A</label>
+        <input id="a" type="number" inputmode="decimal" placeholder="Ex: 12.5">
+      </div>
+      <div>
+        <label for="b">Nombre B</label>
+        <input id="b" type="number" inputmode="decimal" placeholder="Ex: 7.5">
+      </div>
+      <div>
+        <button id="sumBtn">Additionner</button>
+        <div class="result" id="result">Résultat: —</div>
+      </div>
+    </div>
+
+    <div class="install" id="installSection" hidden>
+      <button id="installBtn">Installer l’application</button>
+    </div>
+
+    <footer>© 2025 — Addition PWA</footer>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
+      });
+    }
+  </script>
+</body>
+</html>
